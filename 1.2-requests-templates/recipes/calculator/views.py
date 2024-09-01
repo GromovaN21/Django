@@ -31,10 +31,15 @@ DATA = {
 # }
 
 
-def recipes(request):
-    context = {
-        'recipes': DATA
-    }
-    #servings = request.GET["servings"]
-
+def recipes(request, dish):
+    mult =1
+    context = {'recipe': {}}
+    mult = request.GET.get('servings')
+    
+    for k in DATA[dish].keys():
+        if mult:
+            context['recipe'][k] = int(mult) * DATA[dish][k]
+            
+        else:
+            context['recipe'][k] =  DATA[dish][k]
     return render(request, 'calculator/index.html', context)
